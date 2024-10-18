@@ -1,1 +1,28 @@
 @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined");
+
+header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  min-height: 50px;
+  align-items: center;
+  z-index: 1;
+  background: #fff;
+  border-bottom: 1px solid #00002614;
+  padding: 5px;
+  
+  nav {
+    display: flex;
+    gap: 15px;
+    
+    .nav-link {
+      color: #000;
+    }
+    
+    .router-link-active {
+      border-bottom: 1px solid black;
+      padding-bottom: 5px;
+    }
+  }
+}

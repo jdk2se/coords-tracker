@@ -1,7 +1,7 @@
 <template>
   <div class="map-wrapper">
     <section class="markers">
-      <h3>Маркеры:</h3>
+      <p class="markers__title">Маркеры:</p>
     </section>
     <section class="map-container">
       <Map />

@@ -1,16 +1,20 @@
 <template>
 <header>
   <nav>
-    <router-link to="/">
+    <router-link
+      class="nav-link"
+      to="/"
+    >
       О задании
     </router-link>
-    <router-link to="/map">
+    <router-link
+      class="nav-link"
+      to="/map"
+    >
       Карта
-    </router-link>
-    <span class="material-symbols-outlined">language</span>
+    </router-link>    
   </nav>
-  
-  
+  <span class="material-symbols-outlined">language</span>  
 </header>
 </template>
 

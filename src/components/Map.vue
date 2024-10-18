@@ -5,16 +5,17 @@
 
 <script setup lang="ts">
 import L from "leaflet";
+import { Map } from "leaflet";
 import { onMounted, Ref, ref } from "vue";
 
 const lat: Ref<number> = ref(0);
 const lng: Ref<number> = ref(0);
-const map = ref();
-const mapContainer = ref();
+const map: Ref<Map> = ref();
+const mapContainer: Ref<HTMLDivElement | null> = ref(null);
 
 function getLocation() {
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition((position) => {
+    navigator.geolocation.watchPosition((position) => {
       lat.value = position.coords.latitude;
       lng.value = position.coords.longitude;
       map.value.setView([lat.value, lng.value], 16);
@@ -31,10 +32,10 @@ function getLocation() {
 onMounted(() => {
   getLocation();
   
-  map.value = L.map(mapContainer.value).setView([51.505, -0.09], 13);
+  map.value = L.map(mapContainer.value).setView([51.505, -0.09], 13);  
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    attribution: ''
   }).addTo(map.value);
 });
 </script>

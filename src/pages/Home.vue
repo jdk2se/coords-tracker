@@ -39,7 +39,7 @@
     
     <p><b>Напоминание:</b> тестовое задание призвано показать умение писать хороший модульный код, а также умение пользоваться указанными технологиями и не только. Этим кодом нужно гордиться.</p>
     <p>Пример:</p>
-    <img alt="Map" src="@/assets/images/map.jpg" />
+    <img alt="MapExample" class="map__demo" src="@/assets/images/map.jpg" />
   </div>
 </template>
 
@@ -53,3 +53,10 @@ import { onBeforeMount, ref, Ref } from "vue";
     tasks.value = (await import('@/data/tasks.json')).default;
   }); 
 </script>
+
+<style scoped lang="scss">
+  .map__demo {
+    display: block;
+    margin: 0 auto;
+  }
+</style>

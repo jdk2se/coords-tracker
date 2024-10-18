@@ -1,4 +1,7 @@
 .map-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  
   .map-container {
     
     .leaflet-map {
