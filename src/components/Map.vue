@@ -7,6 +7,7 @@
 import L from "leaflet";
 import { Map } from "leaflet";
 import { onMounted, Ref, ref } from "vue";
+import { useMarkerStore } from "@/stores/markerStore.ts";
 
 const lat: Ref<number> = ref(0);
 const lng: Ref<number> = ref(0);
