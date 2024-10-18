@@ -1,20 +1,22 @@
 <template>
-  <div class="map-wrapper">
+  <div class="map-wrapper"> 
     <section class="markers">
       <p class="markers__title">Маркеры:</p>
-      <Marker
-        v-for="marker in markers"
-        :marker="marker"
-        :is-active="isMarkerActive(marker.id)"
-        :key="marker.id"
-        @marker-click="markerClick"
-      />
+      <div class="markers__list">
+        <Marker
+          v-for="marker in markerStore.markers"
+          :marker="marker"
+          :is-active="isMarkerActive(marker.id)"
+          :key="marker.id"
+          @marker-click="markerStore.setActiveMarker"
+        />
+      </div>
     </section>
     <section class="map-container">
       <Map 
-        :markers="markers"
+        :markers="markerStore.markers"
         :active-marker="activeMarker"
-        @map-marker-click="markerClick"
+        @map-marker-click="markerStore.setActiveMarker"
       />        
     </section>
   </div>
@@ -24,16 +26,14 @@
 import Map from "@/components/Map.vue";
 import Marker from "@/components/Marker.vue";
 import { useMarkerStore } from "@/stores/markerStore.ts";
+import { storeToRefs } from "pinia";
 
-const { markers, activeMarker } = useMarkerStore();
+const markerStore = useMarkerStore();
+const { activeMarker } = storeToRefs(markerStore);
 
 const isMarkerActive = (id: string) => {
-  if (!activeMarker) return false;
+  if (!activeMarker.value) return false;
   
-  return id === activeMarker.id;
-} 
-
-const markerClick = (id: string) => {
-  console.log(id);// @TODO DudnikES
-};
+  return id === activeMarker.value.id;
+}
 </script>

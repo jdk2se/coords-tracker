@@ -8,6 +8,11 @@ export const useMarkerStore = defineStore('markerStore', {
         id: '1',
         lat: 44.9,
         lng: 20.4002993
+      },
+      {
+        id: '2',
+        lat: 44.89,
+        lng: 20.4002993
       }
     ],
     activeMarker: <IMarker | null>null,
@@ -17,6 +22,13 @@ export const useMarkerStore = defineStore('markerStore', {
       const activeMarker = this.markers.find((marker) => {
         return marker.id === markerId;
       });      
+      
+      this.activeMarker = activeMarker ? activeMarker : null;
+    },
+    setActiveMarker(markerId: string) {
+      const activeMarker = this.markers.find((marker) => {
+        return marker.id === markerId;
+      });
       
       this.activeMarker = activeMarker ? activeMarker : null;
     },

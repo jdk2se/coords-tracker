@@ -3,6 +3,7 @@
   grid-template-columns: 1fr 4fr;
   
   .map-container {
+    position: relative;
     
     .leaflet-map {
       width: 100%;
