@@ -1,5 +1,5 @@
 export interface IMarker {
   lat: number;
   lng: number;
-  id: number;
+  id: string;
 }

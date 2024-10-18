@@ -1,0 +1,10 @@
+.marker {
+  &:hover {
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  &.active {
+    font-weight: bold;
+  }
+}

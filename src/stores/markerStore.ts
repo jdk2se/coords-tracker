@@ -3,15 +3,26 @@ import { IMarker } from "../types/IMarker.ts";
 
 export const useMarkerStore = defineStore('markerStore', {
   state: () => ({
-    markers: <IMarker[]>[],
+    markers: <IMarker[]>[
+      {
+        id: '1',
+        lat: 44.9,
+        lng: 20.4002993
+      }
+    ],
+    activeMarker: <IMarker | null>null,
   }),
   actions: {
-    async checkStorage() {
-      console.log('check local storage');// @TODO DudnikES
+    async fill(markerId: string) {
+      const activeMarker = this.markers.find((marker) => {
+        return marker.id === markerId;
+      });      
+      
+      this.activeMarker = activeMarker ? activeMarker : null;
     },
     addMarker(lat: number, lng: number) {
       const marker: IMarker = {
-        id: this.markers.length + 1,
+        id: `${this.markers.length + 1}`,
         lat: lat,
         lng: lng,
       }
