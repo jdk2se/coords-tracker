@@ -15,7 +15,7 @@
   height: 50px;
   border-radius: 50%;
   right: 4px;
-  bottom: 30px;
+  top: 5px;
   background: #ff6c00e3;
   color: white;
   font-weight: bold;

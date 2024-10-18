@@ -3,7 +3,6 @@
   <Button @click="isAdding = !isAdding">
     {{ isAdding ? 'x' : '+' }}
   </Button>
-  {{ lat }} : {{ lng }}
 </template>
 
 <script setup lang="ts">
@@ -12,6 +11,7 @@ import { Map } from "leaflet";
 import { onMounted, Ref, ref, watch } from "vue";
 import { IMarker } from "@/types/IMarker.ts";
 import Button from "@/components/Button.vue";
+import { TLatLng } from "@/types/TLatLng.ts";
 
 const props = defineProps<{
   markers: IMarker[],
@@ -19,7 +19,8 @@ const props = defineProps<{
 }>();
 
 const emits = defineEmits<{
-  (e: 'mapMarkerClick', markerId: string): void
+  (e: 'mapMarkerClick', markerId: string): void,
+  (e: 'mapMarkerAdded', marker: TLatLng): void,
 }>();
 
 const lat: Ref<number> = ref(0);
@@ -42,13 +43,20 @@ onMounted(async () => {
       .addTo(map.value)
       .on("click", () => {
         emits('mapMarkerClick', marker.id);
-      })
+      });
   });
 
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 20,
     attribution: ''
   }).addTo(map.value);
+
+  map.value.on('click', (e: TLatLng) => {
+    if (!isAdding.value) return;
+    
+    L.marker(e.latlng).addTo(map.value);
+    emits('mapMarkerAdded', e);
+  });
 });
 
 const getLocation = async() => {

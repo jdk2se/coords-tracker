@@ -10,6 +10,7 @@ export const routes = [
   },
   {
     path: '/map/:markerId?',
+    name: 'map-view',
     beforeEnter: async (to) => {      
       await useMarkerStore().fill(to.params.markerId);
       return true;

@@ -1,24 +1,18 @@
 import { acceptHMRUpdate, defineStore } from "pinia";
 import { IMarker } from "../types/IMarker.ts";
+import { TLatLng } from "../types/TLatLng.ts";
+import { Backend } from "../utility/Backend.ts";
 
 export const useMarkerStore = defineStore('markerStore', {
   state: () => ({
-    markers: <IMarker[]>[
-      {
-        id: '1',
-        lat: 44.9,
-        lng: 20.4002993
-      },
-      {
-        id: '2',
-        lat: 44.89,
-        lng: 20.4002993
-      }
-    ],
+    markers: <IMarker[]>[],
     activeMarker: <IMarker | null>null,
+    backendHelper: new Backend(),
+    isLoading: false,
   }),
   actions: {
     async fill(markerId: string) {
+      this.markers = await this.backendHelper.getItem('MarkersList') as Awaited<Promise<IMarker []>>;
       const activeMarker = this.markers.find((marker) => {
         return marker.id === markerId;
       });      
@@ -32,13 +26,15 @@ export const useMarkerStore = defineStore('markerStore', {
       
       this.activeMarker = activeMarker ? activeMarker : null;
     },
-    addMarker(lat: number, lng: number) {
-      const marker: IMarker = {
+    async addMarker(marker: TLatLng) {
+      const newMarker: IMarker = {
         id: `${this.markers.length + 1}`,
-        lat: lat,
-        lng: lng,
+        lat: marker.latlng.lat,
+        lng: marker.latlng.lng,
       }
-      this.markers.push(marker);
+      
+      this.markers.push(newMarker);
+      await this.backendHelper.setItem('MarkersList', JSON.stringify(this.markers));
     }
   }
 })
