@@ -3,6 +3,7 @@
   <Button @click="isAdding = !isAdding">
     {{ isAdding ? 'x' : '+' }}
   </Button>
+  <p class="warning" v-show="isWrongMarker">Address is not found</p>
 </template>
 
 <script setup lang="ts">
@@ -12,6 +13,7 @@ import { onMounted, Ref, ref, watch } from "vue";
 import { IMarker } from "@/types/IMarker.ts";
 import Button from "@/components/Button.vue";
 import { TLatLng } from "@/types/TLatLng.ts";
+import { useMarkerStore } from "@/stores/markerStore.ts";
 
 const props = defineProps<{
   markers: IMarker[],
@@ -20,7 +22,6 @@ const props = defineProps<{
 
 const emits = defineEmits<{
   (e: 'mapMarkerClick', markerId: string): void,
-  (e: 'mapMarkerAdded', marker: TLatLng): void,
 }>();
 
 const lat: Ref<number> = ref(0);
@@ -29,6 +30,8 @@ const map: Ref<Map> = ref();
 const isAdding: Ref<boolean> = ref(false);
 const mapContainer: Ref<HTMLDivElement | null> = ref(null);
 const ZOOM = 14;
+const { addMarker } = useMarkerStore();
+const isWrongMarker: Ref<boolean> = ref(false);
 
 onMounted(async () => {
   await getLocation();
@@ -51,11 +54,16 @@ onMounted(async () => {
     attribution: ''
   }).addTo(map.value);
 
-  map.value.on('click', (e: TLatLng) => {
+  map.value.on('click', async (e: TLatLng) => {
     if (!isAdding.value) return;
-    
-    L.marker(e.latlng).addTo(map.value);
-    emits('mapMarkerAdded', e);
+
+    const isMarkerAdded = await addMarker(e);
+    if (isMarkerAdded) {
+      L.marker(e.latlng).addTo(map.value);
+      isWrongMarker.value = false;
+    } else {
+      isWrongMarker.value = true;
+    }    
   });
 });
 

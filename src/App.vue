@@ -5,7 +5,11 @@ import Header from "@/components/Header.vue";
 <template>
   <Header /> 
   <div class="content">
-    <router-view />
+    <router-view v-slot="{ Component }">
+      <keep-alive>
+        <component :is="Component" />
+      </keep-alive>
+    </router-view>
   </div>
 </template>
 

@@ -17,7 +17,6 @@
         :markers="markerStore.markers"
         :active-marker="activeMarker"
         @map-marker-click="setActiveMarker"
-        @map-marker-added="markerStore.addMarker"
       />        
     </section>
   </div>

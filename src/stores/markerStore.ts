@@ -2,6 +2,7 @@ import { acceptHMRUpdate, defineStore } from "pinia";
 import { IMarker } from "../types/IMarker.ts";
 import { TLatLng } from "../types/TLatLng.ts";
 import { Backend } from "../utility/Backend.ts";
+import { addressChecker } from "../utility/helpers.ts";
 
 export const useMarkerStore = defineStore('markerStore', {
   state: () => ({
@@ -26,15 +27,19 @@ export const useMarkerStore = defineStore('markerStore', {
       
       this.activeMarker = activeMarker ? activeMarker : null;
     },
-    async addMarker(marker: TLatLng) {
+    async addMarker(marker: TLatLng): Promise<boolean> {
+      const isAddressValid = await addressChecker(marker.latlng.lat, marker.latlng.lng);
+      if (!isAddressValid) return false;
+      
       const newMarker: IMarker = {
         id: `${this.markers.length + 1}`,
         lat: marker.latlng.lat,
         lng: marker.latlng.lng,
       }
-      
+
       this.markers.push(newMarker);
-      await this.backendHelper.setItem('MarkersList', JSON.stringify(this.markers));
+      // await this.backendHelper.setItem('MarkersList', JSON.stringify(this.markers)); // @TODO DudnikES 
+      return true;
     }
   }
 })
