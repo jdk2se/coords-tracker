@@ -1,5 +1,5 @@
 <template>
-not found
+404 Page not found
 </template>
 
 <script setup lang="ts">

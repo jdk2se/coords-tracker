@@ -84,7 +84,9 @@ const getLocation = async() => {
 watch(
   () => props.activeMarker,
   () => {
-    map.value.setView([props.activeMarker?.lat, props.activeMarker?.lng], ZOOM)
+    if (props.activeMarker) {
+      map.value.setView([props.activeMarker.lat, props.activeMarker.lng], ZOOM)  
+    }    
   }
 )
 </script>

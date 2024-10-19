@@ -13,12 +13,14 @@ export const useMarkerStore = defineStore('markerStore', {
   }),
   actions: {
     async fill(markerId: string) {
+      this.isLoading = true;
       this.markers = await this.backendHelper.getItem('MarkersList') as Awaited<Promise<IMarker []>>;
       const activeMarker = this.markers.find((marker) => {
         return marker.id === markerId;
       });      
       
       this.activeMarker = activeMarker ? activeMarker : null;
+      this.isLoading = false;
     },
     setActiveMarker(markerId: string) {
       const activeMarker = this.markers.find((marker) => {
@@ -28,8 +30,12 @@ export const useMarkerStore = defineStore('markerStore', {
       this.activeMarker = activeMarker ? activeMarker : null;
     },
     async addMarker(marker: TLatLng): Promise<boolean> {
+      this.isLoading = true;
       const isAddressValid = await addressChecker(marker.latlng.lat, marker.latlng.lng);
-      if (!isAddressValid) return false;
+      if (!isAddressValid) {
+        this.isLoading = false;
+        return false;
+      }
       
       const newMarker: IMarker = {
         id: `${this.markers.length + 1}`,
@@ -38,7 +44,8 @@ export const useMarkerStore = defineStore('markerStore', {
       }
 
       this.markers.push(newMarker);
-      // await this.backendHelper.setItem('MarkersList', JSON.stringify(this.markers)); // @TODO DudnikES 
+      await this.backendHelper.setItem('MarkersList', JSON.stringify(this.markers)); 
+      this.isLoading = false;
       return true;
     }
   }
