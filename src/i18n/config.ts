@@ -6,6 +6,7 @@ export default {
       markers: {
         title: 'Markers',
         marker: 'Marker',
+        incorrectAddress: 'Address is not found',
       },
       header: {
         about: 'About task',
@@ -16,6 +17,7 @@ export default {
       markers: {
         title: 'Маркеры',
         marker: 'Маркер',
+        incorrectAddress: 'Адрес не найден',
       },
       header: {
         about: 'О задании',

@@ -3,7 +3,7 @@
   <Button @click="isAdding = !isAdding">
     {{ isAdding ? 'x' : '+' }}
   </Button>
-  <p class="warning" v-show="isWrongMarker">Address is not found</p>
+  <p class="warning" v-show="isWrongMarker">{{ $t('markers.incorrectAddress') }}</p>
 </template>
 
 <script setup lang="ts">
