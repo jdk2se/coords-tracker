@@ -14,7 +14,7 @@ defineProps<{
     @click="$emit('marker-click', marker.id)"
   >
     <div class="marker__title">
-      Маркер № {{ marker.id }}
+      {{ $t('markers.marker') }} № {{ marker.id }}
     </div>
     <div class="marker__coords">
       {{ marker.lat }}, {{ marker.lng }}

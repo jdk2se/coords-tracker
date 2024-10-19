@@ -11,7 +11,7 @@ import L from "leaflet";
 import { Map } from "leaflet";
 import { onMounted, Ref, ref, watch } from "vue";
 import { IMarker } from "@/types/IMarker.ts";
-import Button from "@/components/Button.vue";
+import Button from "@/components/UI/Button.vue";
 import { TLatLng } from "@/types/TLatLng.ts";
 import { useMarkerStore } from "@/stores/markerStore.ts";
 

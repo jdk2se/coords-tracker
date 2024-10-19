@@ -1,7 +1,7 @@
 <template>
   <div class="map-wrapper"> 
     <section class="markers">
-      <p class="markers__title">Маркеры:</p>
+      <p class="markers__title">{{ $t('markers.title') }}:</p>
       <div class="markers__list">
         <Marker
           v-for="marker in markerStore.markers"

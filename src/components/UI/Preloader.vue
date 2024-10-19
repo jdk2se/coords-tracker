@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMarkerStore } from "@/stores/markerStore.ts";
+import { useMarkerStore } from "@/stores/markerStore.js";
 
 const { isLoading } = useMarkerStore();
 </script>

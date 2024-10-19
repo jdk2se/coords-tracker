@@ -5,22 +5,23 @@
         class="nav-link"
         to="/"
       >
-        О задании
+        {{ $t('header.about') }}
       </router-link>
       <router-link
         class="nav-link"
         to="/map"
       >
-        Карта
+        {{ $t('header.map') }}
       </router-link>    
-    </nav>
-    <span class="material-symbols-outlined">language</span>  
+    </nav>    
+    <DropdownMenu />
   </header>
   <Preloader />
 </template>
 
 <script setup lang="ts">
-import Preloader from "@/components/Preloader.vue";
+import Preloader from "@/components/UI/Preloader.vue";
+import DropdownMenu from "@/components/UI/DropdownMenu.vue";
 </script>
 
 <style scoped>
