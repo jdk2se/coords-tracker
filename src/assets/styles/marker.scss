@@ -24,6 +24,25 @@
     &.active {
       font-weight: bold;
     }
-  } 
+    
+    &__coords {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+@media (max-width: 960px) {
+  .markers__list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0;
+    margin-right: 0;
+    justify-content: space-between;
+
+    .marker {
+      width: 45%;
+    }
+  }
 }
 

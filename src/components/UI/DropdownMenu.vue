@@ -6,6 +6,10 @@
       <a href="#" @click="$i18n.locale='en'">EN</a>
     </div>
   </div>
+  <select class="dropdown-touch">
+    <option value="ru" @click="$i18n.locale='ru'" selected>RU</option>
+    <option value="en" @click="$i18n.locale='en'">EN</option>
+  </select>
 </template>
 
 <script setup lang="ts">
@@ -42,4 +46,18 @@
 .dropdown-content a:hover {background-color: #ddd;}
 
 .dropdown:hover .dropdown-content {display: block;}
+
+.dropdown-touch {
+  display: none;
+}
+
+@media (max-width: 960px) {
+  .dropdown {
+    display: none;
+  }
+
+  .dropdown-touch {
+    display: inline-block;
+  }
+}
 </style>

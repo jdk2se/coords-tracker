@@ -1,6 +1,10 @@
 .map-wrapper {
   display: grid;
   grid-template-columns: 1fr 4fr;
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-template-areas: 
+    ". .";
   height: calc(100vh - 50px);
   overflow: hidden;
   
@@ -18,5 +22,34 @@
   
   .warning {
     color: red;
+  }
+}
+
+@media (max-width: 960px) {
+  .map-wrapper {
+    grid-template-columns: 100%;
+    grid-template-areas:
+      "."
+      "."
+  ;
+
+    .map-container {
+      margin-top: 15px;
+
+      .leaflet-map {
+        height: 400px;
+      }
+      
+      .warning {
+        color: #f9eeee;
+        position: absolute;
+        top: 0;
+        z-index: 1000;
+        left: 55px;
+        background: rgba(0,0,0,0.5);
+        padding: 5px;
+        border-radius: 5px;
+      }
+    }
   }
 }

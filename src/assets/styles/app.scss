@@ -14,3 +14,17 @@
 .content {
   padding: 5px;
 }
+
+.wrapper {
+  .map__demo {
+    display: block;
+    margin: 0 auto;
+  }
+
+  @media screen and (max-width: 600px) {
+    .map__demo {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+}

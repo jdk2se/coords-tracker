@@ -54,9 +54,5 @@ import { onBeforeMount, ref, Ref } from "vue";
   }); 
 </script>
 
-<style scoped lang="scss">
-  .map__demo {
-    display: block;
-    margin: 0 auto;
-  }
+<style scoped lang="scss">  
 </style>

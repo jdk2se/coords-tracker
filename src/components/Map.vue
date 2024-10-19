@@ -45,6 +45,7 @@ onMounted(async () => {
     L.marker([marker.lat, marker.lng])
       .addTo(map.value)
       .on("click", () => {
+        isWrongMarker.value = false;
         emits('mapMarkerClick', marker.id);
       });
   });
