@@ -29,16 +29,17 @@ export const useMarkerStore = defineStore('markerStore', {
       
       this.activeMarker = activeMarker ? activeMarker : null;
     },
-    async addMarker(marker: TLatLng): Promise<boolean> {
+    async addMarker(marker: TLatLng): Promise<string> {
       this.isLoading = true;
       const isAddressValid = await addressChecker(marker.latlng.lat, marker.latlng.lng);
       if (!isAddressValid) {
         this.isLoading = false;
-        return false;
+        return '';
       }
       
+      const markerId = `${this.markers.length + 1}`; 
       const newMarker: IMarker = {
-        id: `${this.markers.length + 1}`,
+        id: markerId,
         lat: marker.latlng.lat,
         lng: marker.latlng.lng,
       }
@@ -46,7 +47,7 @@ export const useMarkerStore = defineStore('markerStore', {
       this.markers.push(newMarker);
       await this.backendHelper.setItem('MarkersList', JSON.stringify(this.markers)); 
       this.isLoading = false;
-      return true;
+      return markerId;
     }
   }
 })

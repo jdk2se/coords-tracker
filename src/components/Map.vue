@@ -26,9 +26,9 @@ const emits = defineEmits<{
 
 const lat: Ref<number> = ref(0);
 const lng: Ref<number> = ref(0);
-const map: Ref<Map> = ref();
+let map: Map;
 const isAdding: Ref<boolean> = ref(false);
-const mapContainer: Ref<HTMLDivElement | null> = ref(null);
+const mapContainer: Ref<HTMLDivElement | string> = ref('');
 const ZOOM = 14;
 const { addMarker } = useMarkerStore();
 const isWrongMarker: Ref<boolean> = ref(false);
@@ -36,14 +36,14 @@ const isWrongMarker: Ref<boolean> = ref(false);
 onMounted(async () => {
   await getLocation();
   if (props.activeMarker) {
-    map.value = L.map(mapContainer.value).setView([props.activeMarker.lat, props.activeMarker.lng], ZOOM);
+    map = L.map(mapContainer.value).setView([props.activeMarker.lat, props.activeMarker.lng], ZOOM);
   } else {
-    map.value = L.map(mapContainer.value).setView([lat.value, lng.value], ZOOM);
+    map = L.map(mapContainer.value).setView([lat.value, lng.value], ZOOM);
   }
 
   props.markers.forEach((marker) => {
     L.marker([marker.lat, marker.lng])
-      .addTo(map.value)
+      .addTo(map)
       .on("click", () => {
         isWrongMarker.value = false;
         emits('mapMarkerClick', marker.id);
@@ -53,14 +53,20 @@ onMounted(async () => {
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 20,
     attribution: ''
-  }).addTo(map.value);
+  }).addTo(map);
 
-  map.value.on('click', async (e: TLatLng) => {
+  map.on('click', async (e: TLatLng) => {
     if (!isAdding.value) return;
 
-    const isMarkerAdded = await addMarker(e);
-    if (isMarkerAdded) {
-      L.marker(e.latlng).addTo(map.value);
+    const markerId = await addMarker(e);
+    if (markerId) {
+      L.marker(e.latlng)
+        .addTo(map)
+        .on("click", () => {
+          isWrongMarker.value = false;
+          emits('mapMarkerClick', markerId);
+        })
+      ;
       isWrongMarker.value = false;
     } else {
       isWrongMarker.value = true;
@@ -85,8 +91,8 @@ const getLocation = async() => {
 watch(
   () => props.activeMarker,
   () => {
-    if (props.activeMarker) {
-      map.value.setView([props.activeMarker.lat, props.activeMarker.lng], ZOOM)  
+    if (map && props.activeMarker) {
+      map.setView([props.activeMarker.lat, props.activeMarker.lng], ZOOM)  
     }    
   }
 )

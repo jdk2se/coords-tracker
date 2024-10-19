@@ -1,5 +1,5 @@
 <template>
-  <div class="map-wrapper"> 
+  <div class="map-wrapper">
     <section class="markers">
       <p class="markers__title">{{ $t('markers.title') }}:</p>
       <div class="markers__list">
@@ -13,11 +13,11 @@
       </div>
     </section>
     <section class="map-container">
-      <Map 
+      <Map
         :markers="markerStore.markers"
         :active-marker="activeMarker"
         @map-marker-click="setActiveMarker"
-      />        
+      />
     </section>
   </div>
 </template>
@@ -27,15 +27,21 @@ import Map from "@/components/Map.vue";
 import Marker from "@/components/Marker.vue";
 import { useMarkerStore } from "@/stores/markerStore.ts";
 import { storeToRefs } from "pinia";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+import { onBeforeMount } from "vue";
 
 const markerStore = useMarkerStore();
 const { activeMarker } = storeToRefs(markerStore);
 const router = useRouter();
+const route = useRoute();
+
+onBeforeMount(() => {
+  markerStore.fill(route.params.markerId as string);
+});
 
 const isMarkerActive = (id: string) => {
   if (!activeMarker.value) return false;
-  
+
   return id === activeMarker.value.id;
 }
 
@@ -46,7 +52,7 @@ const setActiveMarker = (id: string) => {
       markerId: id,
     },
   });
-  
+
   markerStore.setActiveMarker(id);
 }
 </script>
