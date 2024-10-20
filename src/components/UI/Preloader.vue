@@ -5,12 +5,15 @@
   >
     <div class="loader"/>
   </div>
+  {{ isLoading }}
 </template>
 
 <script setup lang="ts">
 import { useMarkerStore } from "@/stores/markerStore.js";
+import { storeToRefs } from "pinia";
 
-const { isLoading } = useMarkerStore();
+const markerStore = useMarkerStore();
+const { isLoading } = storeToRefs(markerStore);
 </script>
 
 <style scoped lang="scss">
